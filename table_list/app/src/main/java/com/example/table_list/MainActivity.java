@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
     private TableLayout table;
     private EditText textbox;
     private Button button_add;
+    private Button button_delete;
+    private Button button_back;
+    private TextView message;
+    private int selectedRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         table = (TableLayout) findViewById(R.id.table_layout);
         textbox = (EditText) findViewById(R.id.inputText);
         button_add = (Button) findViewById(R.id.button);
+        button_delete = (Button) findViewById(R.id.back);
+        button_back = (Button) findViewById(R.id.delete);
+        message = (TextView) findViewById(R.id.delete_text);
     }
 
     public void buttonClicked(View view){
@@ -45,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
         tableRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                int rowIndex = table.indexOfChild(arg0);
-                table.removeViewAt(rowIndex);
+                selectedRow = table.indexOfChild(arg0);
+                message.setVisibility(view.VISIBLE);
+                button_delete.setVisibility(view.VISIBLE);
+                button_back.setVisibility(view.VISIBLE);
+                table.setVisibility(view.GONE);
             }
         });
         table.addView(tableRow);
@@ -57,5 +67,20 @@ public class MainActivity extends AppCompatActivity {
         table.setVisibility(view.GONE);
         button_add.setVisibility(view.VISIBLE);
         textbox.setVisibility(view.VISIBLE);
+    }
+
+    public void deleteNote(View view){
+        message.setVisibility(view.GONE);
+        button_delete.setVisibility(view.GONE);
+        button_back.setVisibility(view.GONE);
+        table.setVisibility(view.VISIBLE);
+        table.removeViewAt(selectedRow);
+    }
+
+    public void backNote(View view){
+        message.setVisibility(view.GONE);
+        button_delete.setVisibility(view.GONE);
+        button_back.setVisibility(view.GONE);
+        table.setVisibility(view.VISIBLE);
     }
 }
